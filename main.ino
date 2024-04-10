@@ -9,6 +9,9 @@
 SHT sht; 
 BMP180 bmp;
 LCD lcd;
+float temp;
+float humidity;
+float pressure;
 
 void setup() 
 {
@@ -22,7 +25,12 @@ void loop()
 {
   delay (500);
   Serial.println(bmp.getTemperatureBMP180());
-  Serial.println(bmp.getPressureBMP180());
+  //Serial.println(bmp.getPressureBMP180());
   Serial.println(sht.getTemperatureSHT());
-  Serial.println(sht.getHumiditySHT());
+  //Serial.println(sht.getHumiditySHT());
+  Serial.println("////////////");
+  temp = sht.getTemperatureSHT();
+  humidity = sht.getHumiditySHT();
+  pressure = bmp.getPressureBMP180();
+  lcd.LCDPrint(temp,humidity,pressure);
 }
