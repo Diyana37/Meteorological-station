@@ -12,6 +12,7 @@ LCD lcd;
 float temp;
 float humidity;
 float pressure;
+extern unsigned int thermometer[];
 
 void setup() 
 {
@@ -19,6 +20,7 @@ void setup()
     Wire.begin();
     bmp.BMPSetUp();
     lcd.LCDSetUp();
+    lcd.Draw(thermometer);
 }
   
 void loop() 

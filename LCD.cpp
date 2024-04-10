@@ -42,5 +42,9 @@ void LCD::LCDPrint(float temp, float humidity, float pressure)
 
   String pressureS = String(pressure);
   myLCD.print(pressureS, 190, 55);
-  
+}
+
+void LCD:: Draw(int bitmap[])
+{
+  myLCD.drawBitmap(20, 150, 50, 62, bitmap);
 }
