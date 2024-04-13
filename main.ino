@@ -5,6 +5,7 @@
 #include "SHT.h"
 #include <UTFT.h>
 #include "LCD.h"
+//#include "Coordinates.h"
 
 SHT sht; 
 BMP180 bmp;
@@ -12,7 +13,8 @@ LCD lcd;
 float temp;
 float humidity;
 float pressure;
-extern unsigned int thermometer[];
+//Coordinates coordinates;
+
 
 void setup() 
 {
@@ -20,7 +22,7 @@ void setup()
     Wire.begin();
     bmp.BMPSetUp();
     lcd.LCDSetUp();
-    lcd.Draw(thermometer);
+    lcd.Draw();
 }
   
 void loop() 
