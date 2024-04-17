@@ -7,5 +7,4 @@ struct Coordinates
   unsigned int y = 0;
 };
 
-
 #endif

@@ -5,16 +5,22 @@
 #include "SHT.h"
 #include <UTFT.h>
 #include "LCD.h"
-//#include "Coordinates.h"
+#include "Coordinates.h"
+#include "Average.h"
 
 SHT sht; 
 BMP180 bmp;
 LCD lcd;
+Average average;
 float temp;
 float humidity;
 float pressure;
-//Coordinates coordinates;
 
+const int arrSize = 20;
+float tempArr[arrSize];
+float humArr[arrSize];
+float pressArr[arrSize];
+int counter = 0;
 
 void setup() 
 {
@@ -23,18 +29,35 @@ void setup()
     bmp.BMPSetUp();
     lcd.LCDSetUp();
     lcd.Draw();
+
+    temp = sht.getTemperatureSHT();
+    humidity = sht.getHumiditySHT();
+    pressure = bmp.getPressureBMP180();
+    for(int i = 0; i < arrSize; i++)
+    {
+      tempArr[i] = temp;
+      humArr[i] = humidity;
+      pressArr[i] = pressure;
+    }
 }
   
 void loop() 
 {
-  delay (500);
-  Serial.println(bmp.getTemperatureBMP180());
-  //Serial.println(bmp.getPressureBMP180());
-  Serial.println(sht.getTemperatureSHT());
-  //Serial.println(sht.getHumiditySHT());
-  Serial.println("////////////");
-  temp = sht.getTemperatureSHT();
-  humidity = sht.getHumiditySHT();
-  pressure = bmp.getPressureBMP180();
+  lcd.TouchCoordinates();    
+  
+  tempArr[counter] = sht.getTemperatureSHT();
+  temp = average.Avr(tempArr, arrSize);
+  
+  humArr[counter] = sht.getHumiditySHT();
+  humidity = average.Avr(humArr, arrSize);
+  
+  pressArr[counter] = bmp.getPressureBMP180();
+  pressure = average.Avr(pressArr, arrSize);
+    
   lcd.LCDPrint(temp,humidity,pressure);
+  counter++;
+  if(counter == arrSize)
+  {
+    counter = 0;
+  }
 }
